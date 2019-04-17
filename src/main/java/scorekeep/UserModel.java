@@ -4,6 +4,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
+import com.amazonaws.xray.AWSXRay;
+import com.amazonaws.xray.entities.Subsegment;
 
 import java.util.List;
 
@@ -14,10 +16,15 @@ public class UserModel {
 	private DynamoDBMapper mapper = new DynamoDBMapper(client);
 
 	public void saveUser(User user) {
+		// Wrap in subsegment
+		Subsegment subsegment = AWSXRay.beginSubsegment("## UserModel.saveUser");
 		try {
 			mapper.save(user);
 		} catch (Exception e) {
+			subsegment.addException(e);
 			throw e;
+		} finally {
+			AWSXRay.endSubsegment();
 		}
 	}
 

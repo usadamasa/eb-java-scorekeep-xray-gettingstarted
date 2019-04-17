@@ -16,7 +16,7 @@ apply plugin: 'io.spring.dependency-management'
 
 jar {
     baseName = 'scorekeep-api'
-    version =  '1.0.0'
+    version = '1.0.0'
 }
 
 repositories {
@@ -34,6 +34,7 @@ dependencies {
     compile("com.amazonaws:aws-xray-recorder-sdk-core")
     compile("com.amazonaws:aws-xray-recorder-sdk-aws-sdk")
     compile("com.amazonaws:aws-xray-recorder-sdk-aws-sdk-instrumentor")
+    compile("com.amazonaws:aws-xray-recorder-sdk-apache-http")
     testCompile("junit:junit:4.11")
     compile("com.fasterxml.jackson.core:jackson-databind:2.8.4")
 }
